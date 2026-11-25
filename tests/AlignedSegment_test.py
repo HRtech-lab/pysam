@@ -1801,6 +1801,13 @@ class TestForwardStrandValues(ReadTest):
         assert a.query_qualities == fwd_qual
         assert a.get_forward_qualities() == rev_qual
 
+    @pytest.mark.parametrize("is_reverse", [False, True])
+    def test_missing_qualities(self, is_reverse):
+        a = self.build_read()
+        a.query_qualities = None
+        a.is_reverse = is_reverse
+        assert a.get_forward_qualities() is None
+
 
 class TestExportImport(ReadTest):
     def test_string_export(self):

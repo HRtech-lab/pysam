@@ -2097,11 +2097,13 @@ cdef class AlignedSegment:
         Reads mapped to the reverse strand have their base qualities stored
         reversed in the BAM file. This method returns such reads' base qualities
         reversed back to their original orientation.
+
+        Returns None if the record has no base qualities.
         """
-        if self.is_reverse:
-            return self.query_qualities[::-1]
-        else:
-            return self.query_qualities
+        qualities = self.query_qualities
+        if qualities is not None and self.is_reverse:
+            return qualities[::-1]
+        return qualities
 
     def get_aligned_pairs(self, matches_only=False, with_seq=False, with_cigar=False):
         """a list of aligned read (query) and reference positions.
